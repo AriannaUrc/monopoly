@@ -7,7 +7,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden
+    overflow: hidden;
 }
 .fill img {
     flex-shrink: 0;
@@ -86,4 +86,18 @@ body{
     .h-lg-50 { height: 50vh!important; }
     .h-lg-75 { height: 75vh!important; }
     .h-lg-75 { height: 100vh!important; }
+}
+
+#gameBoard{
+    flex-shrink: 0;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+}
+.player-piece{
+    position: absolute;
+    z-index: 20;
+    color: blue;
+    bottom: 1vh;
 }
