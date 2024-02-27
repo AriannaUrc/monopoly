@@ -1,0 +1,46 @@
+regolamento link: http://andman83.altervista.org/monopoli_regolamento.pdf
+
+Numero giocatori 	Denaro 		Iniziale Numero contratti
+2 € 				8.750 		7
+3 € 				7.500		6
+4 € 				6.250 		5
+5 € 				5.000 		4
+6 € 				3.750 		3
+
+
+Prima di iniziare la partita, i giocatori devono pagare alla Banca il valore di acquisto dei
+contratti che hanno ricevuto.
+
+Tutti i giocatori, dopo aver posizionato i propri segnalini sulla casella del VIA!, lanciano
+i due dadi e chi totalizza il punteggio più alto comincia il gioco.
+
+
+Il giocatore di turno lancia i dadi e muove il proprio segnalino di un numero di caselle
+pari al punteggio ottenuto, procedendo nel senso indicato dalla freccia che si trova
+sulla casella del VIA!, esegue le eventuali operazioni collegate alla casella di arrivo e,
+poi, passa i dadi a chi è seduto alla sua sinistra, che diventa il nuovo giocatore di turno.
+Due o più segnalini possono trovarsi contemporaneamente sulla stessa casella, senza
+che questo comporti alcun mutamento del normale svolgimento del gioco.
+
+
+A seconda della casella sulla quale si ferma il segnalino, al giocatore si presentano que-
+ste diverse possibilità:
+• diventare proprietario del terreno (se è ancora “libero”)
+• pagare un affitto al proprietario del terreno
+• pagare una tassa
+• pescare un cartoncino PROBABILITÀ oppure IMPREVISTI (a seconda del simbolo
+indicato sulla casella)
+• Andare in prigione
+
+
+Dalla casella PRIGIONE sì può anche transitare liberamente, mentre la casella POSTEG-
+GIO GRATUITO non comporta alcun tipo di azione da parte del giocatore di turno.
+Quando un giocatore ottiene con i dadi un punteggio doppio (ad esempio 1-1), pro-
+cede con il segnalino come di consueto, ma al termine del turno, dopo aver sottostato
+a quanto previsto dalla casella raggiunta, lancia nuovamente i dadi per un altro turno.
+Un giocatore che ottiene tre volte di seguito un punteggio doppio, deve andare diret-
+tamente in prigione e senza passare dal VIA!
+
+
+Indennità
+Ogni volta che un giocatore si ferma o transita dal VIA!, riceve dalla Banca € 500.
