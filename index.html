@@ -21,46 +21,75 @@
     <!--<script src="./js/script.js"></script> -->
     
 
-    <div class="border border-info col-12 container">
+    <div class="col-12 container">
       <div class="row"> <!--to center: justify-content-center-->
-          <div class="w-75 h-100 border border-info">
+          <div class="w-75 h-100">
               <img id="gameBoard" src="img/board.jpg" class="img-fluid rounded float-left">
               <div  id="p2" style="" class="player-piece w-5 h-5 fill">
                 <img id="P1Img" src="img/hat.jpg" class="img-fluid">
               </div>
           </div>
 
-          <div class="row">
+          <div class="row w-25">
             <div class="dice" id="dice">&#9860;</div>
-            <div id="roll-button" class="text-center align-items-center justify-content-center rounded w-10 h-10">
-              <div>Roll Dice</div>
-            </div>
+            <div class="dice" id="dice2">&#9860;</div>
+            <button id="roll-button" class="align-items-center text-center rounded">
+              Roll<br>Dice
+            </button>
+            <div class="w-100 h-50"></div>
+            <div class="buy text-center w-100"><button>buy<br>property</button></div>
+            <div class="build text-center w-100"><button> build<br>. house .</button></div>
+            <div class="sell text-center w-100 "><button>sell<br>property</button></div>
           </div>
 
       </div>
   </div>
 
   <script>
+  //memorizzare posizione tua e di altri giocatori
+  //memorizzare possessioni tue e degli altri
+  //memorizzare soldi posseduti
+  //memorizzare quante volte di fila hai ottenuto un doppioTiro
+  //se é tre vai in galera
+  //memorizzare il monopoli delle strade
+
+
+
   //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
-  MovePlayer(0,10,1);
+  
   console.log("hello World");
+  var x = 0;//pos
+  var y = 0;//pos
+  MovePlayer(x,y,1);
+
+
+  function RollMovePlayer(roll){
+    //how??
+    
+    MovePlayer(x, y, 1);
+  }
 
   function MovePlayer(x,y,p){
-  let player = document.getElementById("p2");
-  console.log(player);
-  player.style = "bottom: " + (5+y*8.5) + "vh; right: " + (29+x*6.2) + "%;";
-  //player.style.color = "yellow";
+    let player = document.getElementById("p2");
+    console.log(player);
+    player.style = "bottom: " + (5+y*8.5) + "vh; right: " + (29+x*6.2) + "%;";
+    //player.style.color = "yellow";
   }
 
 
   var historyList = [];
   var buttonEl = document.getElementById("roll-button");
   var diceEl = document.getElementById("dice");
+  var diceEl2 = document.getElementById("dice2");
+
 
   function rollDice() {
-    const rollResult = Math.floor(Math.random() * 6) + 1;
-    const diceFace = getDiceFace(rollResult);
+    var rollResult = Math.floor(Math.random() * 6) + 1;
+    var rollResult2 = Math.floor(Math.random() * 6) + 1;
+    var diceFace = getDiceFace(rollResult);
+    var diceFace2 = getDiceFace(rollResult2);
     diceEl.innerHTML = diceFace;
+    diceEl2.innerHTML = diceFace2;
     historyList.push(rollResult);
   }
 
@@ -86,7 +115,113 @@ function getDiceFace(rollResult) {
 buttonEl.addEventListener("click", () => {
   rollDice()
 });
-    
+ 
+
+
+
+function getChanceCard(rollResult) {
+  switch (rollResult) {
+    case 1:
+      //svogli le azioni della carta
+      return "caso1";
+    case 2:
+      return "caso2";
+    case 3:
+      return "caso3";
+    case 4:
+      return "caso4";
+    case 5:
+      return "caso5";
+    case 6:
+      return "caso6";
+    default:
+      return "none";
+  }
+}
+
+
+function CaselleAzioni(x, y, p) {
+  switch (x) {
+    //controlla colonna di destra
+    case 0:
+      switch (y) 
+      {
+        case 0:
+          return;
+        case 1:
+          //svogli le azioni della carta
+          return;
+        case 2:
+          return;
+        case 3:
+          return;
+        case 4:
+          return;
+        case 5:
+          return;
+        case 6:
+          return;
+        case 7:
+          return;
+        case 8:
+          return;
+        case 9:
+          return;
+      }
+      return;
+    case 1:
+      //svogli le azioni della carta
+      return;
+    case 2:
+      return;
+    case 3:
+      return;
+    case 4:
+      return;
+    case 5:
+      return;
+    case 6:
+      return;
+    case 7:
+      return;
+    case 8:
+      return;
+    case 9:
+      return;
+
+    //controlla colonna di sinistra
+    case 10:
+    switch (y) 
+      {
+        case 0:
+          return;
+        case 1:
+          //svogli le azioni della carta
+          return;
+        case 2:
+          return;
+        case 3:
+          return;
+        case 4:
+          return;
+        case 5:
+          return;
+        case 6:
+          return;
+        case 7:
+          return;
+        case 8:
+          return;
+        case 9:
+          return;
+      }
+      return;
+    default:
+      console.log("casella invalida")
+      return;
+  }
+}
+
   </script>
 </body>
 </html>
