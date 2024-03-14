@@ -26,7 +26,7 @@
           <div class="w-75 h-100">
               <img id="gameBoard" src="img/board.jpg" class="img-fluid rounded float-left">
               <div  id="p2" style="" class="player-piece w-5 h-5 fill">
-                <img id="P1Img" src="img/hat.jpg" class="img-fluid">
+                <img id="P1Img" src="img/hat.png" class="img-fluid">
               </div>
           </div>
 
@@ -55,32 +55,136 @@
 
 
 
-  //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
+  
   
   console.log("hello World");
-  var x = 0;//pos
-  var y = 0;//pos
-  MovePlayer(x,y,1);
-
-
-  function RollMovePlayer(roll){
-    //how??
-    
-    MovePlayer(x, y, 1);
-  }
-
-  function MovePlayer(x,y,p){
-    let player = document.getElementById("p2");
-    console.log(player);
-    player.style = "bottom: " + (5+y*8.5) + "vh; right: " + (29+x*6.2) + "%;";
-    //player.style.color = "yellow";
-  }
-
-
-  var historyList = [];
   var buttonEl = document.getElementById("roll-button");
   var diceEl = document.getElementById("dice");
   var diceEl2 = document.getElementById("dice2");
+  var luckyRolls1;
+  var x1;
+  var y1;
+  var money1;
+  var turno;
+
+  inizioPartita();
+  inizioTurno();
+
+  
+
+  function inizioPartita()
+  {
+    console.log("partita inizata");
+    luckyRolls1 = 0; //fix refresh bug
+    x1 = 0;//pos
+    y1 = 0;//pos
+    money1 = 0;
+    turno = 1; //demo player 1
+    MovePlayer(x1,y1,turno);
+  }
+  
+
+  function inizioTurno() //viene chiamata solo se il turno é quello del giocatore
+  {
+    buttonEl.disabled = false;
+  }
+
+  function RollMovePlayer(roll, giocatore) //demo con player1
+  {
+    let x;
+    let y;
+
+    switch(giocatore) //demo, 2 giocatori
+    {
+      case 1: 
+        x = x1;
+        y = y1;
+        //console.log("Ciao!!")
+        break;
+      case 2:
+        x = x2;
+        y = y2;
+        break;
+      default:
+        console.log("giocatore non selezionato")
+        return;
+    }
+
+    if(y==0) //sei sul lato in basso del tabellone
+    {
+      if(x+roll<=10) //se resti nel lato basso...
+      {
+        x = x+roll;
+      }
+      else{
+        y= y + roll - (10-x);
+        x=10;
+      }
+    }
+    else if(x==10)//sei sul lato sinistro del tabellone
+    {
+      if(y+roll<=10)//resti sul lato sinistro...
+      {
+        y = y + roll;
+      }
+      else
+      {
+        x = x - roll + (10 - y);
+        y = 10;
+      }
+    }
+    else if(y==10) //sei sul lato superiore
+    {
+      if(x-roll>=0)//resti sul lato alto...
+      {
+        x = x - roll;
+      }
+      else
+      {
+        y = y - (roll - x);
+        x = 0;
+      }
+    }
+    else //sei sul lato destro
+    {
+      if(y-roll>0)//resti sul lato destro...
+      {
+        y = y - roll;
+      }
+      else
+      {
+        x = x + (roll - y);
+        y = 0;
+        //sei passato dal via!!!
+        money1 += 200; //demo giocatore 1;
+      }
+    }
+
+    //console.log("pos player: " + turno + " = " + x + "," + y)
+    MovePlayer(x, y, 1);
+    switch(giocatore) //demo, 2 giocatori
+    {
+      case 1: 
+        x1 = x;
+        y1 = y;
+        break;
+      case 2:
+        x2 = x;
+        y2 = y;
+        break;
+    }
+    //console.log("player store: " + turno + " = " + x1 + "," + y1)
+  }
+
+  //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
+  function MovePlayer(xx,yy,p){
+    let player = document.getElementById("p2");
+    //console.log(player);
+    player.style = "bottom: " + (5+yy*8.5) + "vh; right: " + (29+xx*6.2) + "%;";
+  }
+
+  
+  
 
 
   function rollDice() {
@@ -90,7 +194,37 @@
     var diceFace2 = getDiceFace(rollResult2);
     diceEl.innerHTML = diceFace;
     diceEl2.innerHTML = diceFace2;
-    historyList.push(rollResult);
+    if(rollResult == rollResult2) //doppio tiro
+    {
+      luckyRolls1 += 1;
+      if(luckyRolls1 == 3)
+      {
+        MovePlayer(10, 0, turno); //jail
+        return;
+      }
+      else if(luckyRolls1>3){
+        luckyRolls1 = 0;
+      }
+    }
+    else if(luckyRolls1<3)//normale
+    {
+      luckyRolls1 = 0;
+      //disattiva tutti i bottoni
+      fineTurno();
+      inizioTurno();
+    }
+    else //in jail
+    {
+      //disattiva tutti i bottoni
+      fineTurno();
+      inizioTurno();
+      return;
+      
+    }
+    
+    RollMovePlayer(rollResult + rollResult2, turno)
+    console.log("lucky?: " + luckyRolls1);
+    console.log("MONEY: " + money1)
   }
 
 function getDiceFace(rollResult) {
@@ -119,7 +253,7 @@ buttonEl.addEventListener("click", () => {
 
 
 
-function getChanceCard(rollResult) {
+function getChanceCard(rollResult) { //usa i break!!!
   switch (rollResult) {
     case 1:
       //svogli le azioni della carta
@@ -220,6 +354,15 @@ function CaselleAzioni(x, y, p) {
       console.log("casella invalida")
       return;
   }
+}
+
+
+
+function fineTurno()
+{
+  console.log("fineee!!")
+  buttonEl.disabled = true;
+  //cambia il turno
 }
 
   </script>
