@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>LET'S PLAY</h2>
+
+  <label for="lname">Create New:</label><br>
+  <input type="text" id="lname" name="fname" value="test1234"><br>
+
+  <button id="createButton">Create</button>
+
+<br><br><br>
+    <label for="gameID">Game ID:</label><br>
+    <input type="text" id="gameID" name="gameID" value="00000">
+    <input type="text" id="gameName" name="gameName" value="test1234"><br>
+
+    <button id="joinButton">Join</button>
+<br><br>
+    <button id="seeButton">See</button>
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+</body>
+<script>
+    async function SeeGames()
+    {
+        //await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 10000);});
+        var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+        const xhr = new XMLHttpRequest();
+        
+        //xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhr.withCredentials = true;
+        
+        //xhr.setRequestHeader('Accept', 'application/json');
+        xhr.addEventListener("readystatechange", function(){
+            if(this.readyState === 4){
+                console.log(this.responseText);
+                //console.log("hi")
+            }
+        })
+        
+        xhr.open("GET", "https://classe5ID.altervista.org/games/partitaN/7");
+        xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+
+        xhr.send();
+    }
+
+
+    function CreateNew(name)
+    {
+        var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+        const xhr = new XMLHttpRequest();
+        
+        //xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhr.withCredentials = true;
+        
+        //xhr.setRequestHeader('Accept', 'application/json');
+        xhr.addEventListener("readystatechange", function(){
+            if(this.readyState === 4){
+                console.log(this.responseText);
+                //console.log("hi")
+            }
+        })
+        
+        xhr.open("POST", "https://classe5ID.altervista.org/games/partita/monopoly_Urciuoli_" + name);
+        xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+
+        xhr.send();
+    }
+
+
+    function joinGame(id, name)
+    {
+        var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function(){
+            if(this.readyState === 4){
+                console.log(this.responseText);
+            }
+        })
+        
+        xhr.open("POST", "https://classe5ID.altervista.org/games/join/" + id + "/" + name);
+        xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+
+        xhr.send();
+    }
+
+    var createButton = document.getElementById("createButton"); //https://classe5ID.altervista.org/games/partita/{Username} 
+    var joinButton = document.getElementById("joinButton");
+    var seeButton = document.getElementById("seeButton");
+    var iText = document.getElementById("lname").value;
+    var jID = document.getElementById("gameID").value;
+    var jName = document.getElementById("gameName").value;
+
+    createButton.addEventListener("click", () => {
+        CreateNew(iText);
+        //aspetta
+        new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
+        SeeGames();
+    });
+
+
+    joinButton.addEventListener("click", () => {
+        joinGame(jID, jName);
+        //aspetta
+        SeeGames();
+    });
+
+
+    seeButton.addEventListener("click", () => {
+        //aspetta
+        SeeGames();
+    });
+
+
+
+</script>
+</html>
