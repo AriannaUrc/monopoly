@@ -37,7 +37,7 @@
               Roll<br>Dice
             </button>
             <div class="w-100 h-50"></div>
-            <div class="buy text-center w-100"><button>buy<br>property</button></div>
+            <div id="buy-button" class="buy text-center w-100"><button>buy<br>property</button></div>
             <div class="build text-center w-100"><button> build<br>. house .</button></div>
             <div class="sell text-center w-100 "><button>sell<br>property</button></div>
           </div>
@@ -53,19 +53,62 @@
   //se é tre vai in galera
   //memorizzare il monopoli delle strade
 
-
+  //memorizzazione mossa: p1:x,y(posizione)_x,y(proprieta comprata);(tassa es.200$ per p3)p3:200;
 
   
   
   console.log("hello World");
   var buttonEl = document.getElementById("roll-button");
+  var buttonBuy = document.getElementById("buy-button");
   var diceEl = document.getElementById("dice");
   var diceEl2 = document.getElementById("dice2");
   var luckyRolls1;
-  var x1;
-  var y1;
+  var x;
+  var y;
   var money1;
-  var turno;
+  var turno; //a chi tocca al momento
+  var player;//giocatore assegnato
+  var scambio; //a chi devo dare soldi alla fine
+  var scambioQuantita;//quanti soldi gli devo dare
+  const proprieta = new Array(11).fill().map(_ => new Array(11).fill(0))
+  const costi = new Array(11).fill().map(_ => new Array(11).fill(0))
+  costi[1][0] = 60; //cost[x][y]
+  costi[3][0] = 60;
+  costi[5][0] = 200;
+  costi[6][0] = 100;
+  costi[8][0] = 100;
+  costi[9][0] = 100;
+  costi[10][1] = 140;
+  costi[10][2] = 150;
+  costi[10][3] = 140;
+  costi[10][4] = 160;
+  costi[10][5] = 200;
+  costi[10][6] = 180;
+  costi[10][8] = 180;
+  costi[10][9] = 200;
+  costi[9][10] = 220;
+  costi[7][10] = 220;
+  costi[6][10] = 240;
+  costi[5][10] = 200;
+  costi[4][10] = 260;
+  costi[3][10] = 260;
+  costi[2][10] = 150;
+  costi[1][10] = 280;
+  costi[0][9] = 300;
+  costi[0][8] = 300;
+  costi[0][6] = 320;
+  costi[0][5] = 200;
+  costi[0][3] = 350;
+  costi[0][1] = 400;
+
+  
+  proprieta[10][1] = 2;
+  proprieta[10][2] = 2;
+  proprieta[10][3] = 2;
+  proprieta[10][4] = 2;
+  proprieta[10][5] = 2;
+  proprieta[10][6] = 2;
+
 
   inizioPartita();
   inizioTurno();
@@ -76,39 +119,23 @@
   {
     console.log("partita inizata");
     luckyRolls1 = 0; //fix refresh bug
-    x1 = 0;//pos
-    y1 = 0;//pos
+    x = 0;//pos
+    y = 0;//pos
     money1 = 0;
+    player=1;//demo player 1
     turno = 1; //demo player 1
-    MovePlayer(x1,y1,turno);
+    MovePlayer(x,y,player);
   }
   
 
   function inizioTurno() //viene chiamata solo se il turno é quello del giocatore
   {
     buttonEl.disabled = false;
+    buttonBuy.disabled = false;
   }
 
   function RollMovePlayer(roll, giocatore) //demo con player1
   {
-    let x;
-    let y;
-
-    switch(giocatore) //demo, 2 giocatori
-    {
-      case 1: 
-        x = x1;
-        y = y1;
-        //console.log("Ciao!!")
-        break;
-      case 2:
-        x = x2;
-        y = y2;
-        break;
-      default:
-        console.log("giocatore non selezionato")
-        return;
-    }
 
     if(y==0) //sei sul lato in basso del tabellone
     {
@@ -159,21 +186,7 @@
         money1 += 200; //demo giocatore 1;
       }
     }
-
-    //console.log("pos player: " + turno + " = " + x + "," + y)
     MovePlayer(x, y, 1);
-    switch(giocatore) //demo, 2 giocatori
-    {
-      case 1: 
-        x1 = x;
-        y1 = y;
-        break;
-      case 2:
-        x2 = x;
-        y2 = y;
-        break;
-    }
-    //console.log("player store: " + turno + " = " + x1 + "," + y1)
   }
 
   //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
@@ -182,10 +195,6 @@
     //console.log(player);
     player.style = "bottom: " + (5+yy*8.5) + "vh; right: " + (29+xx*6.2) + "%;";
   }
-
-  
-  
-
 
   function rollDice() {
     var rollResult = Math.floor(Math.random() * 6) + 1;
@@ -199,7 +208,7 @@
       luckyRolls1 += 1;
       if(luckyRolls1 == 3)
       {
-        MovePlayer(10, 0, turno); //jail
+        MovePlayer(10, 0, player); //jail
         return;
       }
       else if(luckyRolls1>3){
@@ -222,7 +231,12 @@
       
     }
     
-    RollMovePlayer(rollResult + rollResult2, turno)
+    RollMovePlayer(rollResult + rollResult2, player)
+    taxes(x, y, player);
+
+    if(money1<=0){
+      console.log("Hai PERSO!")
+    }
     console.log("lucky?: " + luckyRolls1);
     console.log("MONEY: " + money1)
   }
@@ -249,8 +263,35 @@ function getDiceFace(rollResult) {
 buttonEl.addEventListener("click", () => {
   rollDice()
 });
+
+buttonBuy.addEventListener("click", () => {
+  buyProperty(x, y, player)
+});
  
 
+function buyProperty(x, y, p)
+{
+  //demo player1
+  if(proprieta[x][y] == 0 && money1 - costi[x][y]>=0 && costi[x][y]!=0)
+  {
+    proprieta[x][y] = p;
+    money1 = money1 - costi[x][y];
+  }
+  else{
+    console.log("Non la puoi comprare!")
+  }
+  //detrarre il costo
+  console.log(proprieta);
+}
+
+function taxes(x, y, p){
+  if(proprieta[x][y]!=p && costi[x][y]!=0)
+  {
+    money1 -= costi[x][y];
+    scambio = proprieta[x][y];
+    scambioQuantita = costi[x][y];
+  }
+}
 
 
 function getChanceCard(rollResult) { //usa i break!!!
@@ -362,6 +403,7 @@ function fineTurno()
 {
   console.log("fineee!!")
   buttonEl.disabled = true;
+  buttonBuy.disabled = true;
   //cambia il turno
 }
 
