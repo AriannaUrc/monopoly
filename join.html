@@ -22,6 +22,14 @@
 <p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
 </body>
 <script>
+    function refresh()
+    {
+        iText = document.getElementById("lname").value;
+        jID = document.getElementById("gameID").value;
+        jName = document.getElementById("gameName").value;
+    }
+
+
     async function SeeGames()
     {
         //await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 10000);});
@@ -46,8 +54,10 @@
     }
 
 
-    function CreateNew(name)
+    function CreateNew(name) //returns id;
     {
+        return new Promise((resolve, reject) => 
+        {
         var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
         const xhr = new XMLHttpRequest();
         
@@ -58,7 +68,9 @@
         xhr.addEventListener("readystatechange", function(){
             if(this.readyState === 4){
                 console.log(this.responseText);
-                //console.log("hi")
+                let res = JSON.parse(this.response);
+                let id = parseInt(res.data.id);
+                resolve(id);
             }
         })
         
@@ -66,11 +78,15 @@
         xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
 
         xhr.send();
+        });
     }
 
 
     function joinGame(id, name)
     {
+        return new Promise((resolve, reject) => 
+        {
+
         var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
@@ -78,13 +94,17 @@
         xhr.addEventListener("readystatechange", function(){
             if(this.readyState === 4){
                 console.log(this.responseText);
+                let res = JSON.parse(this.response);
+                let id = parseInt(res.data.id);
+                resolve(id);
             }
         })
         
-        xhr.open("POST", "https://classe5ID.altervista.org/games/join/" + id + "/" + name);
+        xhr.open("POST", "https://classe5ID.altervista.org/games/join/" + id + "/monopoly_Urciuoli_" + name);
         xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
 
         xhr.send();
+        });
     }
 
     async function gameAvailable(id)
@@ -108,8 +128,8 @@
                         var myArr = JSON.parse(xhr.response);
                         var move = parseInt(myArr.data.play);
                         console.log(move);
-                        console.log(isNaN(move))
-                        if(isNaN(move) || (move > 0 && move <= 7))//if there is space for you
+                        //console.log(isNaN(move))
+                        if((move > 0 && move <= 7))//if there is space for you
                         {
                             console.log("yes!!")
                             resolve(true);
@@ -133,15 +153,76 @@
         });
     }
 
+    async function lastMove(id)
+    {
+        return new Promise((resolve, reject) => 
+        {
+            var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function(){
+                if(this.readyState === 4){
+                    console.log(this.responseText);
+                }
+            })
+            
+            xhr.onload = () => {
+                if (xhr.readyState === xhr.DONE) {
+                    if (xhr.status === 200) 
+                    {
+                        var myArr = JSON.parse(xhr.response);
+                        var move = parseInt(myArr.data.play);
+                        //console.log(move);
+                        //console.log(isNaN(move))
+                        resolve(move);
+                    }
+                    else{
+                        resolve(null);
+                    }
+                }
+            };
+
+            xhr.open("GET", "https://classe5ID.altervista.org/games/mossa/" + id);
+            xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+            
+            xhr.send();
+            //return false;
+        });
+    }
+
+    function addNumber(id, name, n){
+        return new Promise((resolve, reject) => 
+        {
+            var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function(){
+                if(this.readyState === 4){
+                    console.log(this.responseText);
+                    resolve();
+                }
+            })
+
+            xhr.open("POST", "https://classe5ID.altervista.org/games/mossa/" + id + "/monopoly_Urciuoli_" + name + "/" + n);
+            xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+            
+            xhr.send();
+        });
+    }
+
     var createButton = document.getElementById("createButton"); //https://classe5ID.altervista.org/games/partita/{Username} 
     var joinButton = document.getElementById("joinButton");
     var seeButton = document.getElementById("seeButton");
-    var iText = document.getElementById("lname").value;
-    var jID = document.getElementById("gameID").value;
-    var jName = document.getElementById("gameName").value;
+    var iText
+    var jID
+    var jName
+    var player = 1;
 
-    createButton.addEventListener("click", () => {
-        CreateNew(iText);
+    createButton.addEventListener("click", async () => {
+        await refresh();
+        let id = await CreateNew(iText);
         //aspetta
         new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
         SeeGames();
@@ -149,13 +230,22 @@
 
 
     joinButton.addEventListener("click", async () => {
+        await refresh()
         //console.log(gameAvailable(jID))
-        var avilable = await gameAvailable(jID);
-        console.log(avilable)
-        if(avilable == true){
-            console.log("wow")
+        //var avilable = await gameAvailable(jID);
+        joinGame(jID, jName);
+        console.log("you can join");
+        var mov =  parseInt( await lastMove(jID)) ;
+        if (isNaN(mov))
+        {
+            addNumber(jID, iText, 2);
         }
-        //joinGame(jID, jName);
+        else{
+            mov += 1;
+            player = mov;
+            addNumber(jID, iText, mov)
+        }
+        
         //aspetta
         SeeGames();
     });
