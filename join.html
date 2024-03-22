@@ -11,7 +11,8 @@
 
 <br><br><br>
     <label for="gameID">Game ID:</label><br>
-    <input type="text" id="gameID" name="gameID" value="00000">
+    <input type="text" id="gameID" name="gameID" value="00000"><br><br>
+    <label for="gameName">Player Name:</label><br>
     <input type="text" id="gameName" name="gameName" value="test1234"><br>
 
     <button id="joinButton">Join</button>
@@ -86,6 +87,52 @@
         xhr.send();
     }
 
+    async function gameAvailable(id)
+    {
+        return new Promise((resolve, reject) => 
+        {
+            var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function(){
+                if(this.readyState === 4){
+                    console.log(this.responseText);
+                }
+            })
+            
+            xhr.onload = () => {
+                if (xhr.readyState === xhr.DONE) {
+                    if (xhr.status === 200) 
+                    {
+                        var myArr = JSON.parse(xhr.response);
+                        var move = parseInt(myArr.data.play);
+                        console.log(move);
+                        console.log(isNaN(move))
+                        if(isNaN(move) || (move > 0 && move <= 7))//if there is space for you
+                        {
+                            console.log("yes!!")
+                            resolve(true);
+                        }
+                        else
+                        {
+                            resolve(false);
+                        }
+                    }
+                    else{
+                        resolve(false);
+                    }
+                }
+            };
+
+            xhr.open("GET", "https://classe5ID.altervista.org/games/mossa/" + id);
+            xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+            
+            xhr.send();
+            //return false;
+        });
+    }
+
     var createButton = document.getElementById("createButton"); //https://classe5ID.altervista.org/games/partita/{Username} 
     var joinButton = document.getElementById("joinButton");
     var seeButton = document.getElementById("seeButton");
@@ -101,8 +148,14 @@
     });
 
 
-    joinButton.addEventListener("click", () => {
-        joinGame(jID, jName);
+    joinButton.addEventListener("click", async () => {
+        //console.log(gameAvailable(jID))
+        var avilable = await gameAvailable(jID);
+        console.log(avilable)
+        if(avilable == true){
+            console.log("wow")
+        }
+        //joinGame(jID, jName);
         //aspetta
         SeeGames();
     });
