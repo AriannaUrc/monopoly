@@ -19,9 +19,19 @@
 <br><br>
     <button id="seeButton">See</button>
 
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+<div id="game_id"></div>
+<div id="timer"></div>
 </body>
 <script>
+
+var timeLeft = 30;
+var elem = document.getElementById('timer');
+    
+function countdown() {
+    elem.innerHTML = timeLeft + ' seconds remaining till redirect';
+    timeLeft--;
+}
+
     function refresh()
     {
         iText = document.getElementById("lname").value;
@@ -172,8 +182,20 @@
                     if (xhr.status === 200) 
                     {
                         var myArr = JSON.parse(xhr.response);
-                        var move = parseInt(myArr.data.play);
-                        //console.log(move);
+                        //console.log("check")
+                        //console.log(myArr);
+
+                        var move;
+
+                        try{
+                            move = parseInt(myArr.data.play.MOSSA);
+                        }
+                        catch{
+                            move = NaN;
+                        }
+                        
+                        //console.log("out")
+                        console.log(move);
                         //console.log(isNaN(move))
                         resolve(move);
                     }
@@ -191,7 +213,53 @@
         });
     }
 
-    function addNumber(id, name, n){
+    async function moveBeforeLast(id)
+    {
+        return new Promise((resolve, reject) => 
+        {
+            var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function(){
+                if(this.readyState === 4){
+                    console.log(this.responseText);
+                }
+            })
+            
+            xhr.onload = () => {
+                if (xhr.readyState === xhr.DONE) {
+                    if (xhr.status === 200) 
+                    {
+                        var myArr = JSON.parse(xhr.response);
+                        var move
+
+                        try{
+                            move = (myArr.data.moves[1].MOSSA);
+                        }
+                        catch{
+                            move = NaN;
+                        }
+                        
+                        console.log(move);
+                        //console.log(isNaN(move))
+                        resolve(move);
+                    }
+                    else{
+                        resolve(null);
+                    }
+                }
+            };
+
+            xhr.open("GET", "https://classe5ID.altervista.org/games/mosse/" + id);
+            xhr.setRequestHeader('Authorization', 'Basic ' +authorizationBasic);
+            
+            xhr.send();
+            //return false;
+        });
+    }
+
+    function addMove(id, name, n){
         return new Promise((resolve, reject) => 
         {
             var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
@@ -215,6 +283,7 @@
     var createButton = document.getElementById("createButton"); //https://classe5ID.altervista.org/games/partita/{Username} 
     var joinButton = document.getElementById("joinButton");
     var seeButton = document.getElementById("seeButton");
+    var id_text = document.getElementById("game_id");
     var iText
     var jID
     var jName
@@ -223,28 +292,60 @@
     createButton.addEventListener("click", async () => {
         await refresh();
         let id = await CreateNew(iText);
+
         //aspetta
-        new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
-        SeeGames();
+        id_text.innerHTML = "GAME ID: " + id + "<br>Share with others...";
+        //aspetta 30 sec e fai countdown
+        var timerId = setInterval(countdown, 1000);
+
+        await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 30000);});
+
+        //get player number 
+        let playerN = parseInt(await lastMove(id));
+        //manda mossa STOP per far fermare l'ingresso di nuovi giocatori
+        addMove(id, iText, "STOP");
+        //console.log('./index.html?player='+player+'&playerN='+playerN+'&id=' +id +'&name='+iText);
+        await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 10000);});
+        
+        
+        clearTimeout(timerId);
+        //redirect
+        window.location = './index.html?player='+player+'&playerN='+playerN+'&id=' +id +'&name='+iText;
+        
     });
 
 
     joinButton.addEventListener("click", async () => {
         await refresh()
+
+        console.log(jName)
+        console.log(jID)
         //console.log(gameAvailable(jID))
         //var avilable = await gameAvailable(jID);
         joinGame(jID, jName);
         console.log("you can join");
         var mov =  parseInt( await lastMove(jID)) ;
+
+        await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
+
         if (isNaN(mov))
         {
-            addNumber(jID, iText, 2);
+            player = 2;
+            addMove(jID, jName, 2);
         }
         else{
             mov += 1;
             player = mov; 
-            addNumber(jID, iText, mov)
+            addMove(jID, jName, mov)
         }
+
+        //console.log('./index.html?player='+player+'&playerN= 0' + '&id=' +jID +'&name='+jName)
+
+        await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 25000);}); //TODO fixx
+
+        let playerN = parseInt(await moveBeforeLast(jID));
+
+        window.location = './index.html?player='+player+'&playerN='+playerN + '&id=' +jID +'&name='+jName;
         
         //aspetta
         SeeGames();
@@ -254,6 +355,8 @@
     seeButton.addEventListener("click", () => {
         //aspetta
         SeeGames();
+
+        moveBeforeLast(47429);
     });
 
 

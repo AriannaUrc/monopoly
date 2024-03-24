@@ -25,7 +25,15 @@
       <div class="row"> <!--to center: justify-content-center-->
           <div class="w-75 h-100">
               <img id="gameBoard" src="img/board.jpg" class="img-fluid rounded float-left">
+              <div  id="p1" style="" class="player-piece w-5 h-5 fill">
+                <img id="P1Img" src="img/hat.png" class="img-fluid">
+              </div>
+
               <div  id="p2" style="" class="player-piece w-5 h-5 fill">
+                <img id="P1Img" src="img/hat.png" class="img-fluid">
+              </div>
+
+              <div  id="p3" style="" class="player-piece w-5 h-5 fill">
                 <img id="P1Img" src="img/hat.png" class="img-fluid">
               </div>
           </div>
@@ -56,22 +64,29 @@
   //memorizzazione mossa: p1:x,y(posizione)_x,y(proprieta comprata);(tassa es.200$ per p3)p3:200;
 
   
-  
+
+  const urlParams = new URLSearchParams(window.location.search);
+  //const page_type = urlParams.get('page_type')
+
   console.log("hello World");
   var buttonEl = document.getElementById("roll-button");
   var buttonBuy = document.getElementById("buy-button");
   var diceEl = document.getElementById("dice");
   var diceEl2 = document.getElementById("dice2");
+  var player = urlParams.get('player');//giocatore assegnato
+  var pName = urlParams.get('name');//giocatore assegnato
+  var id = urlParams.get('id');//giocatore assegnato
+  
   var luckyRolls1;
   var x;
   var y;
   var money1;
-  var nPlayers;
-  var turno; //a chi tocca al momento
-  var player;//giocatore assegnato
+  var nPlayers = parseInt(urlParams.get('playerN'));
+  
+  //var turno; //a chi tocca al momento NON UTILIZZATA
   var scambio; //a chi devo dare soldi alla fine
   var scambioQuantita;//quanti soldi gli devo dare
-  const proprieta = new Array(11).fill().map(_ => new Array(11).fill(0))
+  const proprieta = new Array(11).fill(0).map(_ => new Array(11).fill(0))
   const costi = new Array(11).fill().map(_ => new Array(11).fill(0))
   costi[1][0] = 60; //cost[x][y]
   costi[3][0] = 60;
@@ -116,16 +131,22 @@
 
   
 
-  function inizioPartita()
+  async function inizioPartita()
   {
+
+    if(isNaN(nPlayers)){
+      await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
+      window.location = './noPlayers.html';
+    }
+
     console.log("partita inizata");
-    luckyRolls1 = 0; //fix refresh bug
+    luckyRolls1 = 0; //fix refresh bug TODO
     x = 0;//pos
     y = 0;//pos
     money1 = 0;
-    player=1;//demo player 1
-    turno = 1; //demo player 1
-    nPlayers = 1;
+    //player=1;//demo player 1
+    //turno = 1; //demo player 1
+    console.log("player: " + player)
     MovePlayer(x,y,player);
   }
   
@@ -188,14 +209,14 @@
         money1 += 200; //demo giocatore 1;
       }
     }
-    MovePlayer(x, y, 1);
+    MovePlayer(x, y, player);
   }
 
   //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
   function MovePlayer(xx,yy,p){
-    let player = document.getElementById("p2");
+    let playerSprite = document.getElementById("p" + player);
     //console.log(player);
-    player.style = "bottom: " + (5+yy*8.5) + "vh; right: " + (29+xx*6.2) + "%;";
+    playerSprite.style = "bottom: " + (5+yy*8.5) + "vh; right: " + (29+xx*6.2) + "%;";
   }
 
   function rollDice() {
