@@ -1,435 +1,637 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="AlterVista - Editor HTML"/>
+  <meta name="generator" content="AlterVista - Editor HTML" />
   <title></title>
 </head>
+
 <body>
-  
+
   <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/styles.css">
-    <title>Monopoly!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/styles.css">
+  <title>Monopoly!</title>
   </head>
+
   <body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
     <!--<script src="./js/script.js"></script> -->
-    
+
 
     <div class="col-12 container">
       <div class="row"> <!--to center: justify-content-center-->
-          <div class="w-75 h-100">
-              <img id="gameBoard" src="img/board.jpg" class="img-fluid rounded float-left">
-              <div  id="p1" style="" class="player-piece w-5 h-5 fill">
-                <img id="P1Img" src="img/hat.png" class="img-fluid">
-              </div>
-
-              <div  id="p2" style="" class="player-piece w-5 h-5 fill">
-                <img id="P1Img" src="img/hat.png" class="img-fluid">
-              </div>
-
-              <div  id="p3" style="" class="player-piece w-5 h-5 fill">
-                <img id="P1Img" src="img/hat.png" class="img-fluid">
-              </div>
+        <div class="w-75 h-100">
+          <img id="gameBoard" src="img/board.jpg" class="img-fluid rounded float-left">
+          <div id="p1" style="" class="player-piece w-5 h-5 fill">
+            <img id="P1Img" src="img/hat.png" class="img-fluid">
           </div>
 
-          <div class="row w-25">
-            <div class="dice" id="dice">&#9860;</div>
-            <div class="dice" id="dice2">&#9860;</div>
-            <button id="roll-button" class="align-items-center text-center rounded">
-              Roll<br>Dice
-            </button>
-            <div class="w-100 h-50"></div>
-            <div id="buy-button" class="buy text-center w-100"><button>buy<br>property</button></div>
-            <div class="build text-center w-100"><button> build<br>. house .</button></div>
-            <div class="sell text-center w-100 "><button>sell<br>property</button></div>
+          <div id="p2" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat2.png" class="img-fluid">
           </div>
+
+          <div id="p3" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat3.png" class="img-fluid">
+          </div>
+
+          <div id="p4" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat4.png" class="img-fluid">
+          </div>
+
+          <div id="p5" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat5.png" class="img-fluid">
+          </div>
+
+          <div id="p6" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat6.png" class="img-fluid">
+          </div>
+
+          <div id="p7" style="" class="player-piece w-5 h-5 fill">
+            <img src="img/hat7.png" class="img-fluid">
+          </div>
+        </div>
+
+        <div class="row w-25">
+          <div class="dice" id="dice">&#9860;</div>
+          <div class="dice" id="dice2">&#9860;</div>
+          <button id="roll-button" class="align-items-center text-center rounded">
+            Roll<br>Dice
+          </button>
+          <div class="w-100 h-50"></div>
+          <div class="buy text-center w-100"><button id="buy-button">buy<br>property</button></div>
+          <div class="build text-center w-100"><button> build<br>. house .</button></div>
+          <div class="end text-center w-100 "><button id="end-button">end<br>turn</button></div>
+        </div>
 
       </div>
-  </div>
+    </div>
 
-  <script>
-  //memorizzare posizione tua e di altri giocatori
-  //memorizzare possessioni tue e degli altri
-  //memorizzare soldi posseduti
-  //memorizzare quante volte di fila hai ottenuto un doppioTiro
-  //se é tre vai in galera
-  //memorizzare il monopoli delle strade
+    <script>
+      //memorizzare posizione tua e di altri giocatori
+      //memorizzare possessioni tue e degli altri
+      //memorizzare soldi posseduti
+      //memorizzare quante volte di fila hai ottenuto un doppioTiro
+      //se é tre vai in galera
+      //memorizzare il monopoli delle strade
 
-  //memorizzazione mossa: p1:x,y(posizione)_x,y(proprieta comprata);(tassa es.200$ per p3)p3:200;
-
-  
-
-  const urlParams = new URLSearchParams(window.location.search);
-  //const page_type = urlParams.get('page_type')
-
-  console.log("hello World");
-  var buttonEl = document.getElementById("roll-button");
-  var buttonBuy = document.getElementById("buy-button");
-  var diceEl = document.getElementById("dice");
-  var diceEl2 = document.getElementById("dice2");
-  var player = urlParams.get('player');//giocatore assegnato
-  var pName = urlParams.get('name');//giocatore assegnato
-  var id = urlParams.get('id');//giocatore assegnato
-  
-  var luckyRolls1;
-  var x;
-  var y;
-  var money1;
-  var nPlayers = parseInt(urlParams.get('playerN'));
-  
-  //var turno; //a chi tocca al momento NON UTILIZZATA
-  var scambio; //a chi devo dare soldi alla fine
-  var scambioQuantita;//quanti soldi gli devo dare
-  const proprieta = new Array(11).fill(0).map(_ => new Array(11).fill(0))
-  const costi = new Array(11).fill().map(_ => new Array(11).fill(0))
-  costi[1][0] = 60; //cost[x][y]
-  costi[3][0] = 60;
-  costi[5][0] = 200;
-  costi[6][0] = 100;
-  costi[8][0] = 100;
-  costi[9][0] = 100;
-  costi[10][1] = 140;
-  costi[10][2] = 150;
-  costi[10][3] = 140;
-  costi[10][4] = 160;
-  costi[10][5] = 200;
-  costi[10][6] = 180;
-  costi[10][8] = 180;
-  costi[10][9] = 200;
-  costi[9][10] = 220;
-  costi[7][10] = 220;
-  costi[6][10] = 240;
-  costi[5][10] = 200;
-  costi[4][10] = 260;
-  costi[3][10] = 260;
-  costi[2][10] = 150;
-  costi[1][10] = 280;
-  costi[0][9] = 300;
-  costi[0][8] = 300;
-  costi[0][6] = 320;
-  costi[0][5] = 200;
-  costi[0][3] = 350;
-  costi[0][1] = 400;
-
-  
-  proprieta[10][1] = 2;
-  proprieta[10][2] = 2;
-  proprieta[10][3] = 2;
-  proprieta[10][4] = 2;
-  proprieta[10][5] = 2;
-  proprieta[10][6] = 2;
+      //memorizzazione mossa: p1:x,y(posizione)_x,y(proprieta comprata);(tassa es.200$ per p3)p3:200;
 
 
-  inizioPartita();
-  inizioTurno();
 
-  
+      const urlParams = new URLSearchParams(window.location.search);
+      //const page_type = urlParams.get('page_type')
 
-  async function inizioPartita()
-  {
+      console.log("hello World");
+      var buttonEl = document.getElementById("roll-button");
+      var buttonBuy = document.getElementById("buy-button");
+      var buttonEnd = document.getElementById("end-button");
+      var diceEl = document.getElementById("dice");
+      var diceEl2 = document.getElementById("dice2");
+      var player = urlParams.get('player');//giocatore assegnato
+      var pName = urlParams.get('name');//giocatore assegnato
+      var id = urlParams.get('id');//giocatore assegnato
+      var bought = false
+      var luckyRolls1;
+      var lucky = false;
+      var x;
+      var y;
+      var money1;
+      var nPlayers = parseInt(urlParams.get('playerN'));
 
-    if(isNaN(nPlayers)){
-      await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 2000);});
-      window.location = './noPlayers.html';
-    }
+      //var turno; //a chi tocca al momento NON UTILIZZATA
+      var scambio = 0; //a chi devo dare soldi alla fine
+      var scambioQuantita = 0;//quanti soldi gli devo dare
+      const proprieta = new Array(11).fill(0).map(_ => new Array(11).fill(0))
+      const costi = new Array(11).fill().map(_ => new Array(11).fill(0))
+      costi[1][0] = 60; //cost[x][y]
+      costi[3][0] = 60;
+      costi[5][0] = 200;
+      costi[6][0] = 100;
+      costi[8][0] = 100;
+      costi[9][0] = 100;
+      costi[10][1] = 140;
+      costi[10][2] = 150;
+      costi[10][3] = 140;
+      costi[10][4] = 160;
+      costi[10][5] = 200;
+      costi[10][6] = 180;
+      costi[10][8] = 180;
+      costi[10][9] = 200;
+      costi[9][10] = 220;
+      costi[7][10] = 220;
+      costi[6][10] = 240;
+      costi[5][10] = 200;
+      costi[4][10] = 260;
+      costi[3][10] = 260;
+      costi[2][10] = 150;
+      costi[1][10] = 280;
+      costi[0][9] = 300;
+      costi[0][8] = 300;
+      costi[0][6] = 320;
+      costi[0][5] = 200;
+      costi[0][3] = 350;
+      costi[0][1] = 400;
 
-    console.log("partita inizata");
-    luckyRolls1 = 0; //fix refresh bug TODO
-    x = 0;//pos
-    y = 0;//pos
-    money1 = 0;
-    //player=1;//demo player 1
-    //turno = 1; //demo player 1
-    console.log("player: " + player)
-    MovePlayer(x,y,player);
-  }
-  
 
-  function inizioTurno() //viene chiamata solo se il turno é quello del giocatore
-  {
-    buttonEl.disabled = false;
-    buttonBuy.disabled = false;
-  }
+      /*proprieta[10][1] = 2;
+      proprieta[10][2] = 2;
+      proprieta[10][3] = 2;
+      proprieta[10][4] = 2;
+      proprieta[10][5] = 2;
+      proprieta[10][6] = 2;*/
 
-  function RollMovePlayer(roll, giocatore) //demo con player1
-  {
 
-    if(y==0) //sei sul lato in basso del tabellone
-    {
-      if(x+roll<=10) //se resti nel lato basso...
-      {
-        x = x+roll;
+      inizioPartita();
+      if(player == 1){
+        inizioTurno();
       }
-      else{
-        y= y + roll - (10-x);
-        x=10;
-      }
-    }
-    else if(x==10)//sei sul lato sinistro del tabellone
-    {
-      if(y+roll<=10)//resti sul lato sinistro...
-      {
-        y = y + roll;
-      }
-      else
-      {
-        x = x - roll + (10 - y);
-        y = 10;
-      }
-    }
-    else if(y==10) //sei sul lato superiore
-    {
-      if(x-roll>=0)//resti sul lato alto...
-      {
-        x = x - roll;
-      }
-      else
-      {
-        y = y - (roll - x);
-        x = 0;
-      }
-    }
-    else //sei sul lato destro
-    {
-      if(y-roll>0)//resti sul lato destro...
-      {
-        y = y - roll;
-      }
-      else
-      {
-        x = x + (roll - y);
-        y = 0;
-        //sei passato dal via!!!
-        money1 += 200; //demo giocatore 1;
-      }
-    }
-    MovePlayer(x, y, player);
-  }
-
-  //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
-  function MovePlayer(xx,yy,p){
-    let playerSprite = document.getElementById("p" + player);
-    //console.log(player);
-    playerSprite.style = "bottom: " + (5+yy*8.5) + "vh; right: " + (29+xx*6.2) + "%;";
-  }
-
-  function rollDice() {
-    var rollResult = Math.floor(Math.random() * 6) + 1;
-    var rollResult2 = Math.floor(Math.random() * 6) + 1;
-    var diceFace = getDiceFace(rollResult);
-    var diceFace2 = getDiceFace(rollResult2);
-    diceEl.innerHTML = diceFace;
-    diceEl2.innerHTML = diceFace2;
-    if(rollResult == rollResult2) //doppio tiro
-    {
-      luckyRolls1 += 1;
-      if(luckyRolls1 == 3)
-      {
-        MovePlayer(10, 0, player); //jail
-        return;
-      }
-      else if(luckyRolls1>3){
-        luckyRolls1 = 0;
-      }
-    }
-    else if(luckyRolls1<3)//normale
-    {
-      luckyRolls1 = 0;
-      //disattiva tutti i bottoni
-      fineTurno();
-      inizioTurno();
-    }
-    else //in jail
-    {
-      //disattiva tutti i bottoni
-      fineTurno();
-      inizioTurno();
-      return;
       
-    }
-    
-    RollMovePlayer(rollResult + rollResult2, player)
-    taxes(x, y, player);
-
-    if(money1<=0){
-      console.log("Hai PERSO!")
-    }
-    console.log("lucky?: " + luckyRolls1);
-    console.log("MONEY: " + money1)
-  }
-
-function getDiceFace(rollResult) {
-  switch (rollResult) {
-    case 1:
-      return "&#9856;";
-    case 2:
-      return "&#9857;";
-    case 3:
-      return "&#9858;";
-    case 4:
-      return "&#9859;";
-    case 5:
-      return "&#9860;";
-    case 6:
-      return "&#9861;";
-    default:
-      return "";
-  }
-}
-
-buttonEl.addEventListener("click", () => {
-  rollDice()
-});
-
-buttonBuy.addEventListener("click", () => {
-  buyProperty(x, y, player)
-});
- 
-
-function buyProperty(x, y, p)
-{
-  //demo player1
-  if(proprieta[x][y] == 0 && money1 - costi[x][y]>=0 && costi[x][y]!=0)
-  {
-    proprieta[x][y] = p;
-    money1 = money1 - costi[x][y];
-  }
-  else{
-    console.log("Non la puoi comprare!")
-  }
-  //detrarre il costo
-  console.log(proprieta);
-}
-
-function taxes(x, y, p){
-  if(proprieta[x][y]!=p && costi[x][y]!=0)
-  {
-    money1 -= costi[x][y];
-    scambio = proprieta[x][y];
-    scambioQuantita = costi[x][y];
-  }
-}
 
 
-function getChanceCard(rollResult) { //usa i break!!!
-  switch (rollResult) {
-    case 1:
-      //svogli le azioni della carta
-      return "caso1";
-    case 2:
-      return "caso2";
-    case 3:
-      return "caso3";
-    case 4:
-      return "caso4";
-    case 5:
-      return "caso5";
-    case 6:
-      return "caso6";
-    default:
-      return "none";
-  }
-}
 
+      async function inizioPartita() {
 
-function CaselleAzioni(x, y, p) {
-  switch (x) {
-    //controlla colonna di destra
-    case 0:
-      switch (y) 
-      {
-        case 0:
-          return;
-        case 1:
-          //svogli le azioni della carta
-          return;
-        case 2:
-          return;
-        case 3:
-          return;
-        case 4:
-          return;
-        case 5:
-          return;
-        case 6:
-          return;
-        case 7:
-          return;
-        case 8:
-          return;
-        case 9:
-          return;
+        if (isNaN(nPlayers)) {
+          await new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 2000); });
+          window.location = './noPlayers.html';
+        }
+
+        console.log("partita inizata");
+        luckyRolls1 = 0; //fix refresh bug TODO
+        x = 0;//pos
+        y = 0;//pos
+        money1 = 1500;
+        //player=1;//demo player 1
+        //turno = 1; //demo player 1
+        buttonEnd.disabled = true;
+        console.log("player: " + player)
+
+        MovePlayer(x, y, 1);
+        MovePlayer(x, y, 2);
+        MovePlayer(x, y, 3);
+        MovePlayer(x, y, 4);
+        MovePlayer(x, y, 5);
+        MovePlayer(x, y, 6);
+        MovePlayer(x, y, 7);
+
+        document.getElementById('p1').style.visibility='hidden';
+        document.getElementById('p2').style.visibility='hidden';
+        document.getElementById('p3').style.visibility='hidden';
+        document.getElementById('p4').style.visibility='hidden';
+        document.getElementById('p5').style.visibility='hidden';
+        document.getElementById('p6').style.visibility='hidden';
+        document.getElementById('p7').style.visibility='hidden';
+
+        for(let i=1; i<=nPlayers; i++){
+          document.getElementById('p' +i).style.visibility='visible';
+          //console.log(i)
+        }
+                
       }
-      return;
-    case 1:
-      //svogli le azioni della carta
-      return;
-    case 2:
-      return;
-    case 3:
-      return;
-    case 4:
-      return;
-    case 5:
-      return;
-    case 6:
-      return;
-    case 7:
-      return;
-    case 8:
-      return;
-    case 9:
-      return;
 
-    //controlla colonna di sinistra
-    case 10:
-    switch (y) 
+
+      function inizioTurno() //viene chiamata solo se il turno é quello del giocatore
       {
-        case 0:
-          return;
-        case 1:
-          //svogli le azioni della carta
-          return;
-        case 2:
-          return;
-        case 3:
-          return;
-        case 4:
-          return;
-        case 5:
-          return;
-        case 6:
-          return;
-        case 7:
-          return;
-        case 8:
-          return;
-        case 9:
-          return;
+        buttonEl.disabled = false;
+        buttonBuy.disabled = false;
+        buttonEnd.disabled = true;
       }
-      return;
-    default:
-      console.log("casella invalida")
-      return;
-  }
-}
+
+      function RollMovePlayer(roll, giocatore) //demo con player1
+      {
+
+        if (y == 0) //sei sul lato in basso del tabellone
+        {
+          if (x + roll <= 10) //se resti nel lato basso...
+          {
+            x = x + roll;
+          }
+          else {
+            y = y + roll - (10 - x);
+            x = 10;
+          }
+        }
+        else if (x == 10)//sei sul lato sinistro del tabellone
+        {
+          if (y + roll <= 10)//resti sul lato sinistro...
+          {
+            y = y + roll;
+          }
+          else {
+            x = x - roll + (10 - y);
+            y = 10;
+          }
+        }
+        else if (y == 10) //sei sul lato superiore
+        {
+          if (x - roll >= 0)//resti sul lato alto...
+          {
+            x = x - roll;
+          }
+          else {
+            y = y - (roll - x);
+            x = 0;
+          }
+        }
+        else //sei sul lato destro
+        {
+          if (y - roll > 0)//resti sul lato destro...
+          {
+            y = y - roll;
+          }
+          else {
+            x = x + (roll - y);
+            y = 0;
+            //sei passato dal via!!!
+            money1 += 200; //demo giocatore 1;
+          }
+        }
+        MovePlayer(x, y, player);
+      }
+
+      //accetta valori da 0-10 per muovere la pedina in tutto il tabellone
+      function MovePlayer(xx, yy, p) {
+        let playerSprite = document.getElementById("p" + p);
+        //console.log(player);
+        playerSprite.style = "bottom: " + (5 + yy * 8.5) + "vh; right: " + (29 + xx * 6.2) + "%;";
+      }
+
+      function rollDice() {
+        var rollResult = Math.floor(Math.random() * 6) + 1;
+        var rollResult2 = Math.floor(Math.random() * 6) + 1;
+        var diceFace = getDiceFace(rollResult);
+        var diceFace2 = getDiceFace(rollResult2);
+        diceEl.innerHTML = diceFace;
+        diceEl2.innerHTML = diceFace2;
+        if (rollResult == rollResult2) //doppio tiro
+        {
+          luckyRolls1 += 1;
+          if (luckyRolls1 == 3) {
+            MovePlayer(10, 0, player); //jail
+            lucky = false
+            return;
+          }
+          else if (luckyRolls1 > 3) {
+            luckyRolls1 = 0;
+            lucky = false;
+          }
+          else {
+            lucky = true;
+          }
+        }
+        else if (luckyRolls1 < 3)//normale
+        {
+          lucky = false;
+          luckyRolls1 = 0;
+          //disattiva tutti i bottoni
+          //fineTurno();
+          //inizioTurno();
+        }
+        else //in jail
+        {
+          lucky = false;
+          //disattiva tutti i bottoni
+          //fineTurno();
+          //inizioTurno();
+          return;
+        }
+
+        RollMovePlayer(rollResult + rollResult2, player)
+        taxes(x, y, player);
+
+        if (money1 <= 0) {
+          console.log("Hai PERSO!")
+        }
+        console.log("lucky?: " + luckyRolls1);
+        console.log("MONEY: " + money1)
+      }
+
+      function getDiceFace(rollResult) {
+        switch (rollResult) {
+          case 1:
+            return "&#9856;";
+          case 2:
+            return "&#9857;";
+          case 3:
+            return "&#9858;";
+          case 4:
+            return "&#9859;";
+          case 5:
+            return "&#9860;";
+          case 6:
+            return "&#9861;";
+          default:
+            return "";
+        }
+      }
+
+      buttonEl.addEventListener("click", () => { //dadi
+        rollDice();
+        //attiva bottone end turn
+        buttonEnd.disabled = false;
+        buttonEl.disabled = true;
+      });
+
+      buttonBuy.addEventListener("click", () => {
+        buyProperty(x, y, player)
+      });
+
+      buttonEnd.addEventListener("click", () => {
+        fineTurno();
+      });
 
 
+      function buyProperty(x, y, p) {
+        //demo player1
+        if (proprieta[x][y] == 0 && money1 - costi[x][y] >= 0 && costi[x][y] != 0) {
+          proprieta[x][y] = p;
+          bought = true;
+          money1 = money1 - costi[x][y];
+        }
+        else {
+          console.log("Non la puoi comprare!")
+        }
+        //detrarre il costo
+        console.log(proprieta);
+      }
 
-function fineTurno()
-{
-  console.log("fineee!!")
-  buttonEl.disabled = true;
-  buttonBuy.disabled = true;
-  //cambia il turno
-}
+      function taxes(x, y, p) {
+        if (proprieta[x][y] != p && costi[x][y] != 0 && proprieta[x][y]!=0) {
+          money1 -= costi[x][y];
+          console.log("gotta pay taxes");
+          scambio = proprieta[x][y];
+          scambioQuantita = costi[x][y];
+        }
+      }
 
-  </script>
-</body>
+
+      function getChanceCard(rollResult) { //usa i break!!!
+        switch (rollResult) {
+          case 1:
+            //svogli le azioni della carta
+            return "caso1";
+          case 2:
+            return "caso2";
+          case 3:
+            return "caso3";
+          case 4:
+            return "caso4";
+          case 5:
+            return "caso5";
+          case 6:
+            return "caso6";
+          default:
+            return "none";
+        }
+      }
+
+
+      function CaselleAzioni(x, y, p) {
+        switch (x) {
+          //controlla colonna di destra
+          case 0:
+            switch (y) {
+              case 0:
+                return;
+              case 1:
+                //svogli le azioni della carta
+                return;
+              case 2:
+                return;
+              case 3:
+                return;
+              case 4:
+                return;
+              case 5:
+                return;
+              case 6:
+                return;
+              case 7:
+                return;
+              case 8:
+                return;
+              case 9:
+                return;
+            }
+            return;
+          case 1:
+            //svogli le azioni della carta
+            return;
+          case 2:
+            return;
+          case 3:
+            return;
+          case 4:
+            return;
+          case 5:
+            return;
+          case 6:
+            return;
+          case 7:
+            return;
+          case 8:
+            return;
+          case 9:
+            return;
+
+          //controlla colonna di sinistra
+          case 10:
+            switch (y) {
+              case 0:
+                return;
+              case 1:
+                //svogli le azioni della carta
+                return;
+              case 2:
+                return;
+              case 3:
+                return;
+              case 4:
+                return;
+              case 5:
+                return;
+              case 6:
+                return;
+              case 7:
+                return;
+              case 8:
+                return;
+              case 9:
+                return;
+            }
+            return;
+          default:
+            console.log("casella invalida")
+            return;
+        }
+      }
+
+      async function lastMove(id) //return ultima mossa
+      {
+        return new Promise((resolve, reject) => {
+          var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+          const xhr = new XMLHttpRequest();
+          xhr.withCredentials = true;
+
+          xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+              //console.log(this.responseText);
+            }
+          })
+
+          xhr.onload = () => {
+            if (xhr.readyState === xhr.DONE) {
+              if (xhr.status === 200) {
+                var myArr = JSON.parse(xhr.response);
+                //console.log("check")
+                //console.log(myArr);
+
+                var move;
+
+                try {
+                  move = myArr.data.play.MOSSA;
+                }
+                catch {
+                  move = NaN;
+                }
+
+                //console.log("out")
+                //console.log(move);
+                //console.log(isNaN(move))
+                resolve(move);
+              }
+              else {
+                resolve(null);
+              }
+            }
+          };
+
+          xhr.open("GET", "https://classe5ID.altervista.org/games/mossa/" + id);
+          xhr.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+
+          xhr.send();
+          //return false;
+        });
+      }
+
+      async function fineTurno() {
+        console.log("fineee!!")
+        buttonEl.disabled = true;
+        buttonBuy.disabled = true;
+        buttonEnd.disabled = true;
+        //cambia il turno
+
+        //manda infos
+        /*let text = '{ "player": "' + player + '", "position" : ' +
+          '{ "x":"' + x + '" , "y":"' + y + '" }, ' +
+          '"bought": "'+bought+'", "lucky": "'+lucky+'", "taxes" : { "who" : "'+scambio+'" , "quantity" : "'+scambioQuantita+'"}}';*/
+
+        //format the move
+        let text = player + ':' + x + ',' + y + ';' + bought + ';' + lucky + ';' + scambio + ':' + scambioQuantita;
+
+        await addMove(id, pName, text);
+
+        bought = false;
+
+      }
+
+      function addMove(id, name, n) {
+        return new Promise((resolve, reject) => {
+          var authorizationBasic = window.btoa("4IE" + ':' + "Tironi");
+          const xhr = new XMLHttpRequest();
+          xhr.withCredentials = true;
+
+          xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+              console.log(this.responseText);
+              resolve();
+            }
+          })
+
+          xhr.open("POST", "https://classe5ID.altervista.org/games/mossa/" + id + "/monopoly_Urciuoli_" + name + "/" + n);
+          xhr.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+
+          xhr.send();
+        });
+      }
+
+      var tempMove = "STOP";
+
+      async function refreshInfos() {
+        var move = await lastMove(id);
+        if (move != tempMove) //memorizzazione mossa: p1:x,y(posizione);bool(proprieta comprata);lucky;(tassa es.200$ per p3)p3:200;
+        {
+          console.log("refresh")
+          //get infos
+          let campi = move.split(";");
+
+          let playerANDpos = campi[0].split(":");
+          let xANDy = playerANDpos[1].split(",");
+          let boughtProp = campi[1];
+          let isLucky = campi[2];
+          let payToANDquantity = campi[3].split(":");
+
+          //move the player
+          MovePlayer(xANDy[0], xANDy[1], parseInt(playerANDpos[0]) );
+          if(boughtProp){
+            proprieta[xANDy[0]][xANDy[1]] = parseInt(playerANDpos[0]);
+          }
+          
+
+          if(payToANDquantity[0] == player) //take your money
+          {
+            console.log("money~")
+            money1 += parseInt(payToANDquantity[1]);
+          }
+
+          //controlla se é il tuo turno
+          if(next(playerANDpos[0]) == player && isLucky == false)
+          {
+            //your turn!
+            inizioTurno();
+          }
+          //controlla se lucky (puoi rifare il turno?)
+          else if(lucky && parseInt(playerANDpos[0]) == player)
+          {
+            //you are lucky!
+            inizioTurno();
+          }
+
+          
+
+          
+          
+        }
+        tempMove = move;
+      }
+
+
+      function next(p){
+        if(parseInt(p)+1<=nPlayers)
+        {
+          return p+1;
+        }
+        else{
+          return 1;
+        }
+      }
+
+      setInterval(refreshInfos, 5000) //forse 250?
+
+    </script>
+  </body>
+
 </html>
