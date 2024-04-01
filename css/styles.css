@@ -1,5 +1,5 @@
 body{
-    color : red;
+    color : rgb(200, 0, 0);
 }
 
 /* CUSTOM FILL CLASS*/
@@ -134,10 +134,22 @@ body{
     color: rgb(147, 122, 0);
     font-weight: bold;
     right:4%;
-    top: 2%;
+    top:2%;
     
   }
+
+
+#conf{
+    width: 3%;
+    position: absolute;
+    right:5%;
+    bottom: 25%;
+}
   
+  .padding-small{
+    margin-left: 20px;
+  }
+
   button{
     padding-left: 10px;
     padding-right: 10px;

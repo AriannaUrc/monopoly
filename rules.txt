@@ -30,6 +30,7 @@ ste diverse possibilità:
 • pagare una tassa
 • pescare un cartoncino PROBABILITÀ oppure IMPREVISTI (a seconda del simbolo
 indicato sulla casella)
+//modifica gestione "comunity chest" al posto di ulteriori carte random viene trattata come un salvadanaio di tutti i giocatori
 • Andare in prigione
 
 

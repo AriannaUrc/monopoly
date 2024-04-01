@@ -65,20 +65,46 @@
         </div>
 
         <div class="row w-25">
+          <div class="padding-small" id="msg"></div>
+          <div class="padding-small" id="money"></div>
           <div class="dice" id="dice">&#9860;</div>
           <div class="dice" id="dice2">&#9860;</div>
           <button id="roll-button" class="align-items-center text-center rounded">
             Roll<br>Dice
           </button>
           <div class="w-100 h-50"></div>
-          <div class="buy text-center w-100"><button id="buy-button">buy<br>property</button></div>
-          <div class="build text-center w-100"><button> build<br>. house .</button></div>
-          <div class="end text-center w-100 "><button id="end-button">end<br>turn</button></div>
+          <div class="buy text-center w-100"><button id="buy-button">buy<br>property</button></div> 
+          <!-- <div class="build text-center w-100"><button> build<br>. house .</button></div> -->
+          <div class="end text-center w-100 "><button id="end-button">end<br>..turn..</button></div>
         </div>
 
       </div>
     </div>
+    <img id="conf" src="./img/none.png" alt="">
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="card-name" class="modal-title">Modal Header</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p id="card-text">Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+      
+    
     <script>
       //memorizzare posizione tua e di altri giocatori
       //memorizzare possessioni tue e degli altri
@@ -100,6 +126,9 @@
       var buttonEnd = document.getElementById("end-button");
       var diceEl = document.getElementById("dice");
       var diceEl2 = document.getElementById("dice2");
+      var msg = document.getElementById("msg");
+      var answerShow = document.getElementById("conf");
+      var moneyText = document.getElementById("money");
       var player = urlParams.get('player');//giocatore assegnato
       var pName = urlParams.get('name');//giocatore assegnato
       var id = urlParams.get('id');//giocatore assegnato
@@ -110,6 +139,11 @@
       var y;
       var money1;
       var nPlayers = parseInt(urlParams.get('playerN'));
+      var comunityChest = 0;
+      var jailFree = false;
+
+      var modName = document.getElementById("card-name");
+      var modText = document.getElementById("card-text");
 
       //var turno; //a chi tocca al momento NON UTILIZZATA
       var scambio = 0; //a chi devo dare soldi alla fine
@@ -157,13 +191,18 @@
       inizioPartita();
       if(player == 1){
         inizioTurno();
+        msg.innerText = "ITS YOUR TURN";
       }
-      
+      else{
+        buttonEl.disabled = true;
+        buttonBuy.disabled = true;
+        buttonEnd.disabled = true;
+        msg.innerHTML = "ITS NOT YOUR TURN";
+      }
 
 
 
       async function inizioPartita() {
-
         if (isNaN(nPlayers)) {
           await new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 2000); });
           window.location = './noPlayers.html';
@@ -178,6 +217,7 @@
         //turno = 1; //demo player 1
         buttonEnd.disabled = true;
         console.log("player: " + player)
+        comunityChest = 0;
 
         MovePlayer(x, y, 1);
         MovePlayer(x, y, 2);
@@ -206,8 +246,12 @@
       function inizioTurno() //viene chiamata solo se il turno é quello del giocatore
       {
         buttonEl.disabled = false;
-        buttonBuy.disabled = false;
+        buttonEl.style.backgroundColor = "#fff826";
+        buttonEl.style.color = "rgb(147, 122, 0)";
+        //comunityChest = 0;
+        buttonBuy.disabled = true;
         buttonEnd.disabled = true;
+        msg.innerText = "ITS YOUR TURN";
       }
 
       function RollMovePlayer(roll, giocatore) //demo con player1
@@ -281,12 +325,15 @@
           luckyRolls1 += 1;
           if (luckyRolls1 == 3) {
             MovePlayer(10, 0, player); //jail
+            x = 10;
+            y = 0;
             lucky = false
             return;
           }
-          else if (luckyRolls1 > 3) {
+          else if (luckyRolls1 > 3 || jailFree.toString() == "true") {
             luckyRolls1 = 0;
             lucky = false;
+            jailFree = false;
           }
           else {
             lucky = true;
@@ -311,13 +358,16 @@
 
         RollMovePlayer(rollResult + rollResult2, player)
         taxes(x, y, player);
-
+        Azioni(x, y);
+        
         if (money1 <= 0) {
           console.log("Hai PERSO!")
         }
         console.log("lucky?: " + luckyRolls1);
         console.log("MONEY: " + money1)
       }
+
+      
 
       function getDiceFace(rollResult) {
         switch (rollResult) {
@@ -342,7 +392,11 @@
         rollDice();
         //attiva bottone end turn
         buttonEnd.disabled = false;
+        buttonEl.style.backgroundColor = "#999710";
+        buttonEl.style.color = "rgb(200, 196, 163)";
         buttonEl.disabled = true;
+        buttonBuy.disabled = false;
+
       });
 
       buttonBuy.addEventListener("click", () => {
@@ -360,9 +414,11 @@
           proprieta[x][y] = p;
           bought = true;
           money1 = money1 - costi[x][y];
+          answerShow.src = "./img/yes.png"
         }
         else {
           console.log("Non la puoi comprare!")
+          answerShow.src = "./img/no.png"
         }
         //detrarre il costo
         console.log(proprieta);
@@ -377,107 +433,98 @@
         }
       }
 
-
       function getChanceCard(rollResult) { //usa i break!!!
+        $('#myModal').modal('show');
         switch (rollResult) {
+          case 0:
+            modName.innerHTML = "0"
+            modText.innerHTML = "Get Out of Jail Free"
+            jailFree = true;
+            return;
           case 1:
             //svogli le azioni della carta
+            modName.innerHTML = "1"
+            modText.innerHTML = "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200"
+            MovePlayer(10, 0, player); //jail
+            x = 10;
+            y = 0;
+            isLucky = 3;
             return "caso1";
           case 2:
+            modName.innerHTML = "2"
+            modText.innerHTML = "Take a trip to Reading Railroad. If you pass Go, collect $200"
+            MovePlayer(5, 0, player); //Reading Railroad
+            x = 5;
+            y = 0;
+            if(!(x==0 && y<=5))//if you need to pass by the start
+            {
+              money1 += 200;
+            }
             return "caso2";
           case 3:
+            modName.innerHTML = "3"
+            modText.innerHTML = "Your building loan matures. Collect $150"
+            money1 += 150;
             return "caso3";
           case 4:
+            modName.innerHTML = "4"
+            modText.innerHTML = "Speeding fine $15"
+            money1 -= 15;
             return "caso4";
           case 5:
+            modName.innerHTML = "5"
+            modText.innerHTML = "Advance to Go (Collect $200)"
+            MovePlayer(0, 0, player); //Reading Railroad
+            x = 0;
+            y = 0;
+            money1 += 200;
             return "caso5";
-          case 6:
-            return "caso6";
           default:
             return "none";
         }
       }
 
+      function Azioni(x, y){
+        x1 = parseInt(x);
+        y1 = parseInt(y);
 
-      function CaselleAzioni(x, y, p) {
-        switch (x) {
-          //controlla colonna di destra
-          case 0:
-            switch (y) {
-              case 0:
-                return;
-              case 1:
-                //svogli le azioni della carta
-                return;
-              case 2:
-                return;
-              case 3:
-                return;
-              case 4:
-                return;
-              case 5:
-                return;
-              case 6:
-                return;
-              case 7:
-                return;
-              case 8:
-                return;
-              case 9:
-                return;
-            }
-            return;
-          case 1:
-            //svogli le azioni della carta
-            return;
-          case 2:
-            return;
-          case 3:
-            return;
-          case 4:
-            return;
-          case 5:
-            return;
-          case 6:
-            return;
-          case 7:
-            return;
-          case 8:
-            return;
-          case 9:
-            return;
-
-          //controlla colonna di sinistra
-          case 10:
-            switch (y) {
-              case 0:
-                return;
-              case 1:
-                //svogli le azioni della carta
-                return;
-              case 2:
-                return;
-              case 3:
-                return;
-              case 4:
-                return;
-              case 5:
-                return;
-              case 6:
-                return;
-              case 7:
-                return;
-              case 8:
-                return;
-              case 9:
-                return;
-            }
-            return;
-          default:
-            console.log("casella invalida")
-            return;
+        if(x1==0 && y1==0)//you are at the start
+        {
+          money1 += 200;
+        }
+        else if(x1==2 && y1 == 0) //comunity chest
+        {
+          money1 += comunityChest;
+          comunityChest = 0;
+        }
+        else if(x1==4 && y1 == 0) //pay tax
+        {
+          money1 -= 200;
+          comunityChest += 200;
+        }
+        else if(x1==7 && y1 == 0) //chance card
+        {
+          getChanceCard(Math.floor(Math.random() * 6))
+        }
+        else if(x1==10 && y1 == 7) //comunity chest
+        {
+          money1 += comunityChest;
+          comunityChest = 0;
+        }
+        else if(x1==8 && y1 == 10) //chance card
+        {
+          getChanceCard(Math.floor(Math.random() * 6))
+        }
+        else if(x1==0 && y1 == 10) //jail!!
+        {
+          MovePlayer(10, 0, player); //jail
+          x = 10;
+          y = 0;
+          isLucky = 3;
         }
       }
+
+      
 
       async function lastMove(id) //return ultima mossa
       {
@@ -528,7 +575,9 @@
       }
 
       async function fineTurno() {
+        msg.innerText = "ITS NOT YOUR TURN";
         console.log("fineee!!")
+        answerShow.src = "./img/none.png"
         buttonEl.disabled = true;
         buttonBuy.disabled = true;
         buttonEnd.disabled = true;
@@ -540,10 +589,11 @@
           '"bought": "'+bought+'", "lucky": "'+lucky+'", "taxes" : { "who" : "'+scambio+'" , "quantity" : "'+scambioQuantita+'"}}';*/
 
         //format the move
-        let text = player + ':' + x + ',' + y + ';' + bought + ';' + lucky + ';' + scambio + ':' + scambioQuantita;
+        let text = player + ':' + x + ',' + y + ';' + bought + ';' + lucky + ';' + scambio + ':' + scambioQuantita + ';' + parseInt(comunityChest) ;
 
         await addMove(id, pName, text);
 
+        //comunityChest = 0;
         bought = false;
 
       }
@@ -572,17 +622,29 @@
 
       async function refreshInfos() {
         var move = await lastMove(id);
-        if (move != tempMove) //memorizzazione mossa: p1:x,y(posizione);bool(proprieta comprata);lucky;(tassa es.200$ per p3)p3:200;
+        //await new Promise((resolve, reject) => {setTimeout(() => {resolve();}, 1000);});
+        try{
+          if (move != tempMove) //memorizzazione mossa: p1:x,y(posizione);bool(proprieta comprata);lucky;(tassa es.200$ per p3)p3:200;
         {
+          console.log(move)
           console.log("refresh")
           //get infos
-          let campi = move.split(";");
+          let campi
+          let playerANDpos
+          let xANDy
+          let boughtProp
+          let isLucky
+          let payToANDquantity
+          let comunityChest1;
 
-          let playerANDpos = campi[0].split(":");
-          let xANDy = playerANDpos[1].split(",");
-          let boughtProp = campi[1];
-          let isLucky = campi[2];
-          let payToANDquantity = campi[3].split(":");
+          campi = move.split(";");
+
+          playerANDpos = campi[0].split(":");
+          xANDy = playerANDpos[1].split(",");
+          boughtProp = campi[1];
+          isLucky = campi[2];
+          payToANDquantity = campi[3].split(":");
+          comunityChest = parseInt(campi[4]);
 
           //move the player
           MovePlayer(xANDy[0], xANDy[1], parseInt(playerANDpos[0]) );
@@ -598,8 +660,13 @@
           }
 
           //controlla se é il tuo turno
-          if(next(playerANDpos[0]) == player && isLucky == false)
+          console.log(player);
+          console.log(next(playerANDpos[0]))
+          console.log(isLucky.toString());
+          console.log(await next(playerANDpos[0]).toString() == player.toString());
+          if(await next(playerANDpos[0]).toString() == player.toString() && isLucky.toString() == "false")
           {
+            console.log("try")
             //your turn!
             inizioTurno();
           }
@@ -616,20 +683,30 @@
           
         }
         tempMove = move;
+        }
+        catch
+        {
+          console.log("something is weird with the refresh")
+        }
       }
 
 
       function next(p){
-        if(parseInt(p)+1<=nPlayers)
+        if(parseInt(p)<=nPlayers)
         {
-          return p+1;
+          return parseInt(p)+1;
         }
         else{
           return 1;
         }
       }
 
-      setInterval(refreshInfos, 5000) //forse 250?
+      function moneySet(){
+        moneyText.innerHTML = "Money: " + money1;
+      }
+
+      setInterval(refreshInfos, 250) //forse 250?
+      setInterval(moneySet, 250) //forse 250?
 
     </script>
   </body>
